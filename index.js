@@ -3,13 +3,34 @@ const ic = new (require('interactiveConsole')).console();
 
 
 const errorBase = function(){
-
+    /*
+     * @param {object}
+     * @public
+     *
+     */
+    this.add = function(ie){
+        db.push(e);
+        return true;
+    }
+    /*
+     * @private
+     * @var {array}
+     */
+    let db    = [];
+    /*
+     * @private
+     * @var {string}
+     */
     let cross = '┣━ ';
+    /*
+     * @private
+     * @var {string}
+     */
     let last  = '┗━ ';
-
     /*
      * @param {object}
      * @private
+     *
      */
     let formaterOne = function(input. separator){
         return (
@@ -30,6 +51,11 @@ const errorBase = function(){
                 )+' ) \n'
         );
     }
+    /*
+     * @param {object}
+     * @private
+     *
+     */
     let formater = function(debugIn){
         let out = '';
         let lines = debugIn.stack.split('\n');
