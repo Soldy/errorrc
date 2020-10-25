@@ -4,13 +4,46 @@ const ic = new (require('interactiveConsole')).console();
 
 const errorBase = function(){
     /*
+     * @public
+     * @return {string}
+     */
+    this.all = function(){
+        let out = '';
+        for(let i = 0; db.length > i  ; i++ )
+            out += formater(
+                db[i]
+            );
+        return out;
+    }
+    /*
+     * @param {integer} number 
+     * @public
+     * @return {string}
+     *
+     */
+    this.get = function(number){
+        return formater(
+            db[number]
+        );
+    }
+    /*
+     * @public
+     * @return {string}
+     *
+     */
+    this.get = function(number){
+        return formater(
+            db[db.length-1]
+        );
+    }
+    /*
      * @param {object}
      * @public
-     *
+     * @return {integer}
      */
     this.add = function(ie){
         db.push(e);
-        return true;
+        return db.length-1;
     }
     /*
      * @private
