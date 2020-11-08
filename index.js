@@ -16,6 +16,13 @@ const errorBase = function(){
         return out;
     }
     /*
+     * @public
+     * @return {boolean}
+     */
+    this.check = function(){
+        return check();
+    }
+    /*
      * @param {integer} number 
      * @public
      * @return {string}
@@ -31,7 +38,17 @@ const errorBase = function(){
      * @return {string}
      *
      */
-    this.get = function(number){
+    this.first = function(){
+        return formater(
+            db[0]
+        );
+    }
+    /*
+     * @public
+     * @return {string}
+     *
+     */
+    this.last = function(){
         return formater(
             db[db.length-1]
         );
@@ -61,11 +78,22 @@ const errorBase = function(){
      */
     let last  = '┗━ ';
     /*
-     * @param {object}
      * @private
+     * @return {boolean}
      *
      */
-    let formaterOne = function(input. separator){
+    const check = function(){
+        if(1>db.length)
+            return false;
+        return true;
+    }
+    /*
+     * @param {object}
+     * @private
+     * @return {string}
+     *
+     */
+    const formaterOne = function(input. separator){
         return (
                 input[0]
                     .replace('   at ', separator)
@@ -87,9 +115,10 @@ const errorBase = function(){
     /*
      * @param {object}
      * @private
+     * @return {string}
      *
      */
-    let formater = function(debugIn){
+    const formater = function(debugIn){
         let out = '';
         let lines = debugIn.stack.split('\n');
         let first = lines[0].split(':');
