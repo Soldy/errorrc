@@ -1,8 +1,17 @@
+/*
+ *  @Soldy\errorc\2021.02.04\GPL3
+ */
 'use strict';
-const ic = new (require('interactiveConsole')).console();
+const styler = new (require('consolestylerc')).base();
+const setupBase = (require('setuprc')).base;
 
 
-const errorBase = function(){
+
+/*
+ * @param {setuprc} settings 
+ * @prototype
+ */
+const errorBase = function(settings){
     /*
      * @public
      * @return {string}
@@ -58,7 +67,7 @@ const errorBase = function(){
      * @public
      * @return {integer}
      */
-    this.add = function(ie){
+    this.add = function(e){
         db.push(e);
         return db.length-1;
     };
@@ -98,13 +107,13 @@ const errorBase = function(){
             input[0]
                 .replace('   at ', separator)
                 .replace(process.cwd()+'/', ' ')+' | '+
-                ic.style(
+                styler.style(
                     parseInt(input[1]).toString(),
                     {
                         color : 'cyan'
                     }
                 )+':'+
-                ic.style(
+                styler.style(
                     parseInt(input[2]).toString(),
                     {
                         color : 'cyan'
@@ -122,8 +131,8 @@ const errorBase = function(){
         let out = '';
         let lines = debugIn.stack.split('\n');
         let first = lines[0].split(':');
-        ic.printLn(
-            ic.style(
+        out += (
+            styler.style(
                 first[0],
                 {
                     color: 'yellow'
@@ -144,11 +153,31 @@ const errorBase = function(){
                         last
                     );
                 else
-                    formaterOne(
+                    out += formaterOne(
                         lines[i].split(':'),
                         cross
                     );
+        return out;
     };
+    /*
+     * setup  helper
+     * @private
+     */
+    let setup = new setupBase({
+        'debugPrint':{
+            'type'    : 'select',
+            'list'    : [
+                'normal',
+                'short'
+            ],
+            'default' : 'normal'
+        }
+    });
+    /*
+     * setup init 
+     */
+    if(typeof settings !== 'undefined')
+        setup.setup(settings);
 };
 
-exports.errorBase=errorBase;
+exports.base = errorBase;
