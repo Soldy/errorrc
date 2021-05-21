@@ -2,8 +2,8 @@
  *  @Soldy\errorc\2021.02.04\GPL3
  */
 'use strict';
-const styler = new (require('consolestylerc')).base();
-const setupBase = (require('setuprc')).base;
+const $styler = new (require('consolestylerc')).base();
+const $setupBase = (require('setuprc')).base;
 
 
 
@@ -18,10 +18,8 @@ const errorBase = function(settings){
      */
     this.all = function(){
         let out = '';
-        for(let i = 0; db.length > i  ; i++ )
-            out += formater(
-                db[i]
-            );
+        for(let i of _db)
+            out += _formater(i);
         return out;
     };
     /*
@@ -29,7 +27,7 @@ const errorBase = function(settings){
      * @return {boolean}
      */
     this.check = function(){
-        return check();
+        return _check();
     };
     /*
      * @param {integer} number 
@@ -38,8 +36,8 @@ const errorBase = function(settings){
      *
      */
     this.get = function(number){
-        return formater(
-            db[number]
+        return _formater(
+            _db[number]
         );
     };
     /*
@@ -48,8 +46,8 @@ const errorBase = function(settings){
      *
      */
     this.first = function(){
-        return formater(
-            db[0]
+        return _formater(
+            _db[0]
         );
     };
     /*
@@ -58,8 +56,8 @@ const errorBase = function(settings){
      *
      */
     this.last = function(){
-        return formater(
-            db[db.length-1]
+        return _formater(
+            _db[_db.length-1]
         );
     };
     /*
@@ -68,31 +66,31 @@ const errorBase = function(settings){
      * @return {integer}
      */
     this.add = function(e){
-        db.push(e);
-        return db.length-1;
+        _db.push(e);
+        return _db.length-1;
     };
     /*
      * @private
      * @var {array}
      */
-    let db    = [];
+    let _db    = [];
     /*
      * @private
      * @var {string}
      */
-    let cross = '┣━ ';
+    let _cross = '┣━ ';
     /*
      * @private
      * @var {string}
      */
-    let last  = '┗━ ';
+    let _last  = '┗━ ';
     /*
      * @private
      * @return {boolean}
      *
      */
-    const check = function(){
-        if(1>db.length)
+    const _check = function(){
+        if(1>_db.length)
             return false;
         return true;
     };
@@ -102,18 +100,18 @@ const errorBase = function(settings){
      * @return {string}
      *
      */
-    const formaterOne = function(input, separator){
+    const _formaterOne = function(input, separator){
         return (
             input[0]
                 .replace('   at ', separator)
                 .replace(process.cwd()+'/', ' ')+' | '+
-                styler.style(
+                $styler.style(
                     parseInt(input[1]).toString(),
                     {
                         color : 'cyan'
                     }
                 )+':'+
-                styler.style(
+                $styler.style(
                     parseInt(input[2]).toString(),
                     {
                         color : 'cyan'
@@ -127,12 +125,12 @@ const errorBase = function(settings){
      * @return {string}
      *
      */
-    const formater = function(debugIn){
+    const _formater = function(debugIn){
         let out = '';
         let lines = debugIn.stack.split('\n');
         let first = lines[0].split(':');
         out += (
-            styler.style(
+            $styler.style(
                 first[0],
                 {
                     color: 'yellow'
@@ -140,22 +138,22 @@ const errorBase = function(settings){
             )+' : '+
             first[1]
         );
-        if (setup.get('debugPrint') === 'short'){
-            out += formaterOne(
+        if (_setup.get('debugPrint') === 'short'){
+            out += _formaterOne(
                 lines[1].split(':'),
-                last
+                _last
             );
         }else
-            for(let i = 1; lines.length > i ; i++)
+            for(let i in lines)
                 if(i === lines.length-1)
-                    out += formaterOne(
+                    out += _formaterOne(
                         lines[i].split(':'),
-                        last
+                        _last
                     );
                 else
-                    out += formaterOne(
+                    out += _formaterOne(
                         lines[i].split(':'),
-                        cross
+                        _cross
                     );
         return out;
     };
@@ -163,7 +161,7 @@ const errorBase = function(settings){
      * setup  helper
      * @private
      */
-    let setup = new setupBase({
+    let _setup = new $setupBase({
         'debugPrint':{
             'type'    : 'select',
             'list'    : [
@@ -177,7 +175,7 @@ const errorBase = function(settings){
      * setup init 
      */
     if(typeof settings !== 'undefined')
-        setup.setup(settings);
+        _setup.setup(settings);
 };
 
 exports.base = errorBase;
