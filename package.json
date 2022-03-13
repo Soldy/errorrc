@@ -17,7 +17,11 @@
         "url": "https://github.com/Soldy/errorc/issues"
     },
     "homepage": "https://github.com/Soldy/errorc#readme",
+    "dependencies": {
+      "consolestdiorc": "0.0.5",
+      "consolestylerc": "0.0.4"
+    },
     "devDependencies": {
-        "nanoTest": "^0.9.9-beta21"
+       "setuprc": "0.9.9-beta19"
     }
 }

@@ -3,7 +3,7 @@
  */
 'use strict';
 const $styler = new (require('consolestylerc')).base();
-const $setupBase = (require('setuprc')).base;
+const $stdio = new (require('consolestdiorc')).base();
 
 
 
@@ -11,7 +11,7 @@ const $setupBase = (require('setuprc')).base;
  * @param {setuprc} settings 
  * @prototype
  */
-const errorBase = function(settings){
+const errorBase = function(setup_in){
     /*
      * @public
      * @return {string}
@@ -68,6 +68,16 @@ const errorBase = function(settings){
     this.add = function(e){
         _db.push(e);
         return _db.length-1;
+    };
+    /*
+     * @param {object}
+     * @public
+     * @return {integer}
+     */
+    this.print = function(error){
+        $stdio.printLn(
+            _formater(error)
+        );
     };
     /*
      * @private
@@ -138,14 +148,14 @@ const errorBase = function(settings){
             )+' : '+
             first[1]
         );
-        if (_setup.get('debugPrint') === 'short'){
+        if (_setup.get('debug_print') === 'short'){
             out += _formaterOne(
-                lines[1].split(':'),
+                lines[0].split(':'),
                 _last
             );
         }else
             for(let i in lines)
-                if(i === lines.length-1)
+                if(parseInt(i) === lines.length-1)
                     out += _formaterOne(
                         lines[i].split(':'),
                         _last
@@ -161,21 +171,7 @@ const errorBase = function(settings){
      * setup  helper
      * @private
      */
-    let _setup = new $setupBase({
-        'debugPrint':{
-            'type'    : 'select',
-            'list'    : [
-                'normal',
-                'short'
-            ],
-            'default' : 'normal'
-        }
-    });
-    /*
-     * setup init 
-     */
-    if(typeof settings !== 'undefined')
-        _setup.setup(settings);
+    const _setup = setup_in;
 };
 
 exports.base = errorBase;
