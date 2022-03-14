@@ -3,7 +3,6 @@
  */
 'use strict';
 const $styler = new (require('consolestylerc')).base();
-const $stdio = new (require('consolestdiorc')).base();
 const $setuprc = (require('setuprc')).base;
 
 
@@ -106,15 +105,6 @@ const errorBase = function(setup_in){
      */
     this.classCheck = function(name_){
         return _classCheck(name_);
-    };
-    /*
-     * @param {object}
-     * @public
-     */
-    this.print = function(error, comment){
-        $stdio.printLn(
-            _formater(error, comment)
-        );
     };
     /*
      * @param {object}
