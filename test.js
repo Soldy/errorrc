@@ -1,51 +1,96 @@
-const setupBase = (require('setuprc')).base;
 
 
-const setupTest = new setupBase({
-        'debug_print':{
-            'type'    : 'select',
-            'list'    : [
-                'normal',
-                'long',
-                'short'
-            ],
-            'default' : 'long'
-        },
-        'progress_bar':{
-            'type'    : 'bool',
-            'default' : true
-        },
-        'exit_code_fail':{
-            'type'    : 'bool',
-            'default' : true
-        },
-        'exit_code_error':{
-            'type'    : 'bool',
-            'default' : true
-        },
-        'exit_code_missing':{
-            'type'    : 'bool',
-            'default' : true
-        },
-        'serialize':{
-            'type'    : 'bool',
-            'default' : false
-        }
+
+const errorrc = new (require('./index.js')).base({
+    'format':'long'
 });
 
-
-const errorrc = new (require('./index.js')).base(
-    setupTest
+console.log(
+    errorrc.format(
+        Error('short test error just format with comment'),
+        'just comment'
+    )
 );
 
 
-errorrc.print(
-    Error('test error')
+errorrc.setup({
+    'format': 'short'
+});
+
+console.log(
+    errorrc.format(
+        Error('short test error just format')
+    )
 );
 
 
-setupTest.set('debug_print', 'short');
+console.log(
+    errorrc.format(
+        Error('short test error just format with comment'),
+        'just comment'
+    )
+);
 
 errorrc.print(
-    Error('short test error')
+    Error('short test error print with comment'),
+    'just comment'
+);
+
+
+console.log(
+    errorrc.check()
+);
+
+errorrc.add(
+    Error('First'),
+    'comment'
+);
+errorrc.add(
+    Error('Second')
+);
+errorrc.add(
+    Error('Third')
+);
+
+console.log(
+    errorrc.check()
+);
+
+console.log(
+    errorrc.first()
+);
+
+console.log(
+    errorrc.last()
+);
+
+console.log(
+    errorrc.all()
+);
+
+console.log(
+    errorrc.classCheck('a')
+);
+
+errorrc.add(
+    Error('A class First'),
+    'comment',
+    'a'
+);
+errorrc.add(
+    Error('A class Second'),
+    '',
+    'a'
+);
+errorrc.add(
+    Error('A class Third'),
+    '',
+    'a'
+);
+
+console.log(
+    errorrc.classAll('a')
+);
+console.log(
+    errorrc.classCheck('a')
 );
