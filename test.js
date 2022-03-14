@@ -31,10 +31,6 @@ console.log(
     )
 );
 
-errorrc.print(
-    Error('short test error print with comment'),
-    'just comment'
-);
 
 
 console.log(
