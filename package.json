@@ -1,6 +1,6 @@
 {
     "name": "errorrc",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "nice short error message",
     "main": "index.js",
     "scripts": {
@@ -19,9 +19,9 @@
     "homepage": "https://github.com/Soldy/errorc#readme",
     "dependencies": {
       "consolestdiorc": "0.0.5",
-      "consolestylerc": "0.0.4"
+      "consolestylerc": "0.0.4",
+      "setuprc": "0.9.9-beta19"
     },
     "devDependencies": {
-       "setuprc": "0.9.9-beta19"
     }
 }
