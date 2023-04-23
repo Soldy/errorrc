@@ -20,8 +20,8 @@ const errorBase = function(setup_in){
         let out = '';
         for(let i of _classes[class_])
             out += _formater(
-                _db[i].error,
-                _db[i].comment
+                _db[parseInt(i)].error,
+                _db[parseInt(i)].comment
             );
         return out;
     };
@@ -80,16 +80,14 @@ const errorBase = function(setup_in){
             'error':error_
         };
         let index = _db.length.toString();
-        if(typeof class_ === 'string'){
+        if(typeof comment_ === 'string')
+            container.comment = comment_;
+        _db.push(container);
+        if(typeof class_ === 'string')
             _classAdd(
                 class_,
                 index
             );
-            container['class'] = index;
-        }
-        if(typeof comment_ === 'string')
-            container.comment = comment_;
-        _db.push(container);
         return _db.length-1;
     };
     /*
@@ -182,28 +180,36 @@ const errorBase = function(setup_in){
         return true;
     };
     /*
+     * @param {string}
+     * @param {string}
      * @private
-     * @return {boolean}
-     *
      */
     const _classAdd = function(class_, index_){
         const name = class_.toString();
         if (typeof _classes[name] === 'undefined')
             _classes[name] = [];
-        _classes[name].push(index_);
+        else if(_classes[name].indexOf(index_) === -1)
+            _classes[name].push(index_);
+        _db[index_]['class'] = class_;
     };
+    /*
+     * @param {string}
+     * @private
+     */
     const _classRemoveFrom = function(index_){
-        if(typeof _db[index_]['class'] !== 'string')
-            return false;
-        const class_name =  _db[index_]['class'];
-        const class_index =  _class[class_name].indexOf(
-            index_
+        if(
+          (typeof _db[index_] === 'undefined' ) ||
+          (typeof _db[index_]['class'] !== 'string')
         )
+            return false;
+        const class_name = _db[index_]['class'];
+        const class_index = _classes[class_name].indexOf(
+            index_
+        );
         _classes[class_name].splice(
             class_index,
             1
         );
-        return true;
     };
     /*
      * @param {object}
@@ -212,6 +218,12 @@ const errorBase = function(setup_in){
      *
      */
     const _formaterOne = function(input, separator){
+        if(typeof input !== 'string')
+            throw Error( 
+              'This message are not a string is a' +
+               (typeof input).toString()
+            );
+        input = input.split(':');
         return (
             input[0]
                 .replace('   at ', separator)
@@ -260,20 +272,20 @@ const errorBase = function(setup_in){
 
         if (_setup.get('format') === 'short')
             out += _formaterOne(
-                lines[0].split(':'),
-                '- '
+              lines[0],
+              '- '
             );
         else{
             out += '\n';
             for(let i in lines)
                 if(parseInt(i) === lines.length-1)
                     out += _formaterOne(
-                        lines[i].split(':'),
+                        lines[i],
                         _last
                     );
                 else
                     out += _formaterOne(
-                        lines[i].split(':'),
+                        lines[i],
                         _cross
                     );
         }
